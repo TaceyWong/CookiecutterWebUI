@@ -3,7 +3,11 @@ from bottle import route, run, debug, template, request, static_file, error
 
 # only needed when you run Bottle on mod_wsgi
 from bottle import default_app
+from .core import get_templates
 
+@route('/api/templates', method='GET')
+def templates():
+    return get_templates()
 
 @route('/todo')
 def todo_list():
@@ -114,5 +118,7 @@ def mistake404(code):
 
 debug(True)
 run(reloader=True)
+# run(server='gunicorn', host = '127.0.0.1', port = 8000)
+# $ uwsgi --http :8000 --wsgi-file main.py
 # remember to remove reloader=True and debug(True) when you move your
 # application from development to a productive environment
